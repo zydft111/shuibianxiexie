@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* body {
+            background: #000;
+        } */
+        .ball {
+            position: absolute;
+            border-radius: 50%;
+            /* background: pink; */
+            opacity: .4;
+            animation:faguang 0.6s infinite alternate;
+        }
+        @-webkit-keyframes faguang{
+            0%{
+                box-shadow:0px 0px 0px yellow;
+            }
+            100%{box-shadow:0px 0px 10px orange;}
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+</body>
+<script>
+    function ball(x,y,r) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        do {
+            this.dx = parseInt(Math.random() * 9 - 4);
+            this.dy = parseInt(Math.random() * 9 - 4);
+        }while(this.dx == 0 && this.dy == 0);
+        console.log(this.dx);
+        var colors = ['#f90','#ff0','#09c','#c06','#F99','#9c3','#6cc','#9cc'];
+        this.color = colors[parseInt(Math.random() * colors.length)];
+        this.init();
+        BallArr.push(this);   
+    }
+    ball.prototype.init = function(){
+        this.dom = document.createElement('div');
+        this.dom.className = "ball";
+        document.getElementById('box').appendChild(this.dom);
+        this.dom.style.left = this.x -this.r + "px";
+        this.dom.style.top = this.y -this.r + "px";
+        this.dom.style.width = this.r * 2 + "px";
+        this.dom.style.height = this.r * 2 + "px";
+        this.dom.style.backgroundColor = this.color;
+    }
+    ball.prototype.update = function(){
+        this.x = x + this.dx;
+        this.y = y + this.dy;
+        this.r = this.r - 2;
+        this.dom.style.left = this.x + "px";
+        this.dom.style.top = this.y + "px";
+        this.dom.width = this.r * 2 + "px";
+        this.dom.height = this.r * 2 + "px";
+        if(this.r <= 0) {
+            this.godie();
+        }
+    }
+    ball.prototype.godie = function(){
+        document.getElementById("box").removeChild(this.dom);
+        for(var i = 0; i < BallArr.length; i++ ){
+            if(BallArr[i] === this){
+                BallArr.splice(i,1);
+            }
+        }
+    }
+
+    document.onmousemove = function(event){
+        x = event.clientX;
+        y = event.clientY;
+        new ball(x,y,10);
+    }
+    var BallArr = [];
+    setInterval(function(){
+        for(var i = 0; i < BallArr.length; i++){
+            BallArr[i].update();
+        }
+    },50);
+
+</script>
+</html>
