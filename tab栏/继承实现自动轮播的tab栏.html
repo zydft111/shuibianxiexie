@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .box {
+      width: 400px;
+      height: 400px;
+      border: 1px solid #000;
+      margin: 100px auto;
+      border-bottom: 0 none;
+    }
+    .row {
+      display: flex;
+      border-bottom: 1px solid #000;
+    }
+    .item {
+      width: 100px;
+      height: 40px;
+      border-right: 1px solid #000;
+      /* line-height: 40px;
+      text-align: center; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .content {
+      height: 357px;
+      flex: 0 0 100%;
+      display: none;
+    }
+    .active {
+      background-color: red;
+    }
+    .show {
+      display: block;
+    }
+    .a2 {
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="row">
+      <div class="item active">影音</div>
+      <div class="item">书籍</div>
+      <div class="item">零食</div>
+    </div>
+    <div class="row">
+      <div class="content show">影音的内容</div>
+      <div class="content">书籍的内容</div>
+      <div class="content">零食的内容</div>
+    </div>
+  </div>
+</body>
+<script src="./12-tab.js"></script>
+<script>
+
+class AutoTab extends Tab{
+  constructor(options){
+    options = options || {};
+    super(options);
+    this.interval = options.interval || 1000;
+    this.currentIndex = 0
+    this.autoRun();
+  }
+  //添加自动轮播方法
+  autoRun(){
+    this.timer = setInterval(() => {
+      this.currentIndex++;
+        this.currentIndex %= 3;
+        console.log(this.currentIndex)
+
+      // 切换分类
+      this.changeItems(this.items[this.currentIndex]);
+      // 切换内容
+      this.changeContent(this.currentIndex);
+    }, 1000);
+  }
+}
+
+// let at = new AutoTab({interval:2000});
+let at = new AutoTab();
+console.log(at.timer)
+</script>
+</html>
